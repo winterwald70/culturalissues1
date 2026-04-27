@@ -1,0 +1,779 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>The Beat Didn't Stop — African Diaspora & Picó Culture</title>
+<link href="https://fonts.googleapis.com/css2?family=Playfair+Display:ital,wght@0,400;0,700;0,900;1,400&family=Space+Mono:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #0a0805;
+    --surface: #111009;
+    --card: #18150f;
+    --border: #2a2318;
+    --accent: #e8a020;
+    --accent2: #c45a1a;
+    --text: #e8dcc8;
+    --muted: #7a6d57;
+    --film: #3a7a5c;
+    --film-light: #5aaa80;
+    --carolina: #d4882a;
+    --cesar: #6a9fd4;
+    --jose: #c46060;
+  }
+
+  * { margin: 0; padding: 0; box-sizing: border-box; }
+
+  body {
+    background: var(--bg);
+    color: var(--text);
+    font-family: 'Space Mono', monospace;
+    min-height: 100vh;
+    overflow-x: hidden;
+  }
+
+  /* Grain overlay */
+  body::before {
+    content: '';
+    position: fixed;
+    top: 0; left: 0; right: 0; bottom: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    pointer-events: none;
+    z-index: 0;
+    opacity: 0.6;
+  }
+
+  .everything { position: relative; z-index: 1; }
+
+  /* HEADER */
+  header {
+    border-bottom: 1px solid var(--border);
+    padding: 3rem 2rem 2rem;
+    max-width: 900px;
+    margin: 0 auto;
+  }
+
+  .eyebrow {
+    font-size: 0.65rem;
+    letter-spacing: 0.25em;
+    text-transform: uppercase;
+    color: var(--accent);
+    margin-bottom: 1.5rem;
+  }
+
+  h1 {
+    font-family: 'Playfair Display', serif;
+    font-size: clamp(2.2rem, 6vw, 4rem);
+    font-weight: 900;
+    line-height: 1.05;
+    color: var(--text);
+    margin-bottom: 1rem;
+  }
+
+  h1 em {
+    font-style: italic;
+    color: var(--accent);
+  }
+
+  .subtitle {
+    font-size: 0.75rem;
+    color: var(--muted);
+    line-height: 1.8;
+    max-width: 600px;
+    margin-bottom: 2rem;
+  }
+
+  .film-badge {
+    display: inline-flex;
+    align-items: center;
+    gap: 0.5rem;
+    background: var(--film);
+    color: #d4f4e8;
+    font-size: 0.65rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    padding: 0.4rem 0.9rem;
+    border-radius: 2px;
+  }
+
+  .film-badge::before {
+    content: '▶';
+    font-size: 0.6rem;
+  }
+
+  /* TIMELINE NAV */
+  .timeline-nav {
+    display: flex;
+    gap: 0;
+    max-width: 900px;
+    margin: 0 auto;
+    border-bottom: 1px solid var(--border);
+    overflow-x: auto;
+    scrollbar-width: none;
+  }
+
+  .timeline-nav::-webkit-scrollbar { display: none; }
+
+  .nav-item {
+    flex-shrink: 0;
+    padding: 1rem 1.5rem;
+    font-size: 0.6rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    cursor: pointer;
+    border-bottom: 2px solid transparent;
+    transition: all 0.2s;
+    white-space: nowrap;
+  }
+
+  .nav-item:hover { color: var(--text); }
+  .nav-item.active { color: var(--accent); border-bottom-color: var(--accent); }
+
+  /* MAIN CONTENT */
+  .main {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+
+  /* SECTIONS */
+  .section {
+    display: none;
+    animation: fadeIn 0.3s ease;
+  }
+
+  .section.active { display: block; }
+
+  @keyframes fadeIn {
+    from { opacity: 0; transform: translateY(8px); }
+    to { opacity: 1; transform: translateY(0); }
+  }
+
+  /* CHAPTER HEADER */
+  .chapter-header {
+    padding: 2rem 0 1.5rem;
+    border-bottom: 1px solid var(--border);
+    margin-bottom: 2rem;
+  }
+
+  .chapter-era {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--accent2);
+    margin-bottom: 0.5rem;
+  }
+
+  .chapter-title {
+    font-family: 'Playfair Display', serif;
+    font-size: 1.8rem;
+    font-weight: 700;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  .chapter-desc {
+    font-size: 0.72rem;
+    color: var(--muted);
+    line-height: 1.7;
+  }
+
+  /* FILM CALLOUT */
+  .film-callout {
+    background: linear-gradient(135deg, #0d2a1e 0%, #0f3325 100%);
+    border: 1px solid var(--film);
+    border-left: 3px solid var(--film-light);
+    border-radius: 4px;
+    padding: 1.25rem 1.5rem;
+    margin: 2rem 0;
+  }
+
+  .film-callout-label {
+    font-size: 0.58rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--film-light);
+    margin-bottom: 0.6rem;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+  }
+
+  .film-callout-label::before { content: '🎬'; font-size: 0.8rem; }
+
+  .film-callout p {
+    font-size: 0.78rem;
+    color: #a8d4bc;
+    line-height: 1.75;
+  }
+
+  /* DIALOGUE */
+  .dialogue-block {
+    margin: 0.75rem 0;
+    display: flex;
+    gap: 1rem;
+    align-items: flex-start;
+  }
+
+  .speaker-tag {
+    flex-shrink: 0;
+    width: 90px;
+    text-align: right;
+    font-size: 0.62rem;
+    letter-spacing: 0.08em;
+    text-transform: uppercase;
+    font-weight: 700;
+    padding-top: 0.05rem;
+  }
+
+  .speaker-tag.carolina { color: var(--carolina); }
+  .speaker-tag.cesar { color: var(--cesar); }
+  .speaker-tag.jose { color: var(--jose); }
+
+  .dialogue-line {
+    font-size: 0.82rem;
+    line-height: 1.75;
+    color: var(--text);
+    border-left: 1px solid var(--border);
+    padding-left: 1rem;
+    flex: 1;
+  }
+
+  /* SECTION DIVIDER */
+  .section-marker {
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+    margin: 2.5rem 0 1.5rem;
+  }
+
+  .section-marker-line {
+    flex: 1;
+    height: 1px;
+    background: var(--border);
+  }
+
+  .section-marker-label {
+    font-size: 0.6rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    white-space: nowrap;
+  }
+
+  /* AUDIO PLACEHOLDER */
+  .audio-placeholder {
+    background: var(--card);
+    border: 1px dashed var(--border);
+    border-radius: 4px;
+    padding: 1.5rem;
+    margin: 2rem 0;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .audio-icon {
+    width: 48px;
+    height: 48px;
+    border-radius: 50%;
+    background: var(--border);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    font-size: 1.2rem;
+    flex-shrink: 0;
+  }
+
+  .audio-info { flex: 1; }
+  .audio-title { font-size: 0.78rem; font-weight: 700; margin-bottom: 0.25rem; }
+  .audio-sub { font-size: 0.65rem; color: var(--muted); }
+
+  .audio-bar {
+    height: 3px;
+    background: var(--border);
+    border-radius: 2px;
+    margin-top: 0.75rem;
+    position: relative;
+    overflow: hidden;
+  }
+
+  .audio-bar::after {
+    content: '';
+    position: absolute;
+    left: 0; top: 0; bottom: 0;
+    width: 35%;
+    background: var(--accent);
+    border-radius: 2px;
+  }
+
+  /* INTERVIEW BLOCK */
+  .interview-block {
+    background: var(--card);
+    border: 1px solid var(--border);
+    border-radius: 4px;
+    padding: 1.25rem 1.5rem;
+    margin: 1rem 0;
+  }
+
+  .interview-q {
+    font-size: 0.78rem;
+    color: var(--text);
+    margin-bottom: 0.5rem;
+  }
+
+  .interview-pause {
+    font-size: 0.65rem;
+    font-style: italic;
+    color: var(--muted);
+  }
+
+  /* CREDITS */
+  .credits {
+    margin-top: 4rem;
+    padding-top: 2rem;
+    border-top: 1px solid var(--border);
+    text-align: center;
+  }
+
+  .credits p {
+    font-size: 0.65rem;
+    color: var(--muted);
+    line-height: 2;
+  }
+
+  .credits strong { color: var(--accent); }
+
+  /* SPEAKERS LEGEND */
+  .speakers-legend {
+    display: flex;
+    gap: 1.5rem;
+    margin-bottom: 2rem;
+    flex-wrap: wrap;
+  }
+
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+    font-size: 0.65rem;
+  }
+
+  .legend-dot {
+    width: 8px;
+    height: 8px;
+    border-radius: 50%;
+  }
+
+  .dot-carolina { background: var(--carolina); }
+  .dot-cesar { background: var(--cesar); }
+  .dot-jose { background: var(--jose); }
+
+  /* RESPONSIVE */
+  @media (max-width: 600px) {
+    header { padding: 2rem 1rem 1.5rem; }
+    .main { padding: 1.5rem 1rem; }
+    .speaker-tag { width: 60px; font-size: 0.55rem; }
+    .dialogue-line { font-size: 0.78rem; }
+  }
+</style>
+</head>
+<body>
+<div class="everything">
+
+<header>
+  <p class="eyebrow">Assessment 3 — Creative Product · Cultural Issues</p>
+  <h1>The Beat<br><em>Didn't Stop</em></h1>
+  <p class="subtitle">
+    An interactive timeline podcast tracing the African diaspora through music —
+    from the shores of West Africa to the Caribbean, the Congo, and the picó culture
+    of Colombia's Caribbean coast.
+  </p>
+  <span class="film-badge">Starting point: Soundtrack of a Coup d'État (2024)</span>
+</header>
+
+<nav class="timeline-nav">
+  <div class="nav-item active" onclick="showSection('intro', this)">🎧 Intro</div>
+  <div class="nav-item" onclick="showSection('origins', this)">1400s — Origins</div>
+  <div class="nav-item" onclick="showSection('diaspora', this)">Diaspora</div>
+  <div class="nav-item" onclick="showSection('return', this)">The Return</div>
+  <div class="nav-item" onclick="showSection('colombia', this)">🇨🇴 Colombia</div>
+  <div class="nav-item" onclick="showSection('pico', this)">Picó Culture</div>
+  <div class="nav-item" onclick="showSection('interview', this)">🎤 Interview</div>
+  <div class="nav-item" onclick="showSection('closing', this)">Closing</div>
+</nav>
+
+<main class="main">
+
+  <!-- INTRO -->
+  <section class="section active" id="intro">
+    <div class="chapter-header">
+      <p class="chapter-era">Introduction</p>
+      <h2 class="chapter-title">A Story Told in Sound</h2>
+      <p class="chapter-desc">Three voices. One journey. From the transatlantic slave trade to the sound systems of Barranquilla.</p>
+    </div>
+
+    <div class="speakers-legend">
+      <div class="legend-item"><div class="legend-dot dot-carolina"></div> Carolina</div>
+      <div class="legend-item"><div class="legend-dot dot-cesar"></div> César</div>
+      <div class="legend-item"><div class="legend-dot dot-jose"></div> Jose</div>
+    </div>
+
+    <div class="audio-placeholder">
+      <div class="audio-icon">🎵</div>
+      <div class="audio-info">
+        <div class="audio-title">Episode Audio</div>
+        <div class="audio-sub">Embed your podcast recording here — Spotify, SoundCloud, or direct file</div>
+        <div class="audio-bar"></div>
+      </div>
+    </div>
+
+    <div class="film-callout">
+      <p class="film-callout-label">Soundtrack of a Coup d'État (Johan Grimonprez, 2024)</p>
+      <p>Our starting point is this documentary — which shows how jazz and African music were used as political weapons during the Cold War and the struggles for African independence. Music was never just music. It was always something more. That's exactly what our episode is about.</p>
+    </div>
+
+    <div class="dialogue-block">
+      <span class="speaker-tag carolina">Carolina</span>
+      <p class="dialogue-line">Okay, so today we're not just explaining a topic… we're basically telling a story.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag cesar">César</span>
+      <p class="dialogue-line">Yeah, like a timeline, but more like… we're traveling through it.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag jose">Jose</span>
+      <p class="dialogue-line">Exactly. And it starts in Africa… and somehow ends up here in Colombia.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag carolina">Carolina</span>
+      <p class="dialogue-line">And everything is connected through music, which is kind of crazy if you think about it.</p>
+    </div>
+  </section>
+
+  <!-- ORIGINS -->
+  <section class="section" id="origins">
+    <div class="chapter-header">
+      <p class="chapter-era">Late 1400s — End of the 15th Century</p>
+      <h2 class="chapter-title">They Didn't Arrive Empty</h2>
+      <p class="chapter-desc">The transatlantic slave trade begins. But culture doesn't travel in chains.</p>
+    </div>
+
+    <div class="film-callout">
+      <p class="film-callout-label">Connection to Soundtrack of a Coup d'État</p>
+      <p>The film opens exactly here — with the idea that African culture survived forced displacement. The documentary shows how this survival wasn't passive; music became a form of resistance, memory, and political power. The people in our story did the same thing centuries earlier.</p>
+    </div>
+
+    <div class="dialogue-block">
+      <span class="speaker-tag carolina">Carolina</span>
+      <p class="dialogue-line">Alright, imagine this… late 1400s.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag cesar">César</span>
+      <p class="dialogue-line">Like, end of the 15th century.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag jose">Jose</span>
+      <p class="dialogue-line">That's when the transatlantic slave trade begins… and millions of Africans are taken to the Americas.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag carolina">Carolina</span>
+      <p class="dialogue-line">But something important — they didn't arrive empty.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag cesar">César</span>
+      <p class="dialogue-line">Right, they brought their culture… especially music and dance.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag jose">Jose</span>
+      <p class="dialogue-line">And before all that, in Africa, music already had a deep meaning.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag carolina">Carolina</span>
+      <p class="dialogue-line">Yeah, it wasn't just for fun.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag cesar">César</span>
+      <p class="dialogue-line">There was even a dance focused on the navel, which symbolized life and creation.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag jose">Jose</span>
+      <p class="dialogue-line">And it was like a seduction game… but with distance, not like dancing super close.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag carolina">Carolina</span>
+      <p class="dialogue-line">So basically, the body was communicating.</p>
+    </div>
+  </section>
+
+  <!-- DIASPORA -->
+  <section class="section" id="diaspora">
+    <div class="chapter-header">
+      <p class="chapter-era">The Caribbean — Mixing & Birth</p>
+      <h2 class="chapter-title">Africa Meets Europe: Rumba is Born</h2>
+      <p class="chapter-desc">When African rhythms land in the Caribbean, they don't disappear — they transform.</p>
+    </div>
+
+    <div class="dialogue-block">
+      <span class="speaker-tag cesar">César</span>
+      <p class="dialogue-line">Then all of this arrives in the Caribbean…</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag jose">Jose</span>
+      <p class="dialogue-line">And mixes with European influences.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag carolina">Carolina</span>
+      <p class="dialogue-line">Like the guitar.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag cesar">César</span>
+      <p class="dialogue-line">And that's how rumba is born.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag jose">Jose</span>
+      <p class="dialogue-line">But here's the crazy part…</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag carolina">Carolina</span>
+      <p class="dialogue-line">Yeah, this is my favorite part.</p>
+    </div>
+  </section>
+
+  <!-- THE RETURN -->
+  <section class="section" id="return">
+    <div class="chapter-header">
+      <p class="chapter-era">1930s — The Music Goes Home</p>
+      <h2 class="chapter-title">Africa → America → Africa Again</h2>
+      <p class="chapter-desc">Cuban rumba reaches the Congo. The circle closes. Something new is created: soukous.</p>
+    </div>
+
+    <div class="film-callout">
+      <p class="film-callout-label">Direct Link: Soundtrack of a Coup d'État</p>
+      <p>This circular journey — Africa to America and back — is exactly what the film documents with jazz. During the Cold War, American jazz traveled to Africa and became entangled with independence movements. Grimonprez's documentary asks: who owns this music? Who does it serve? The same question applies here with soukous and rumba.</p>
+    </div>
+
+    <div class="dialogue-block">
+      <span class="speaker-tag cesar">César</span>
+      <p class="dialogue-line">In the 1930s, that music goes back to Africa.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag jose">Jose</span>
+      <p class="dialogue-line">Cuban rumba reaches the Congo.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag carolina">Carolina</span>
+      <p class="dialogue-line">And people there are like… "this sounds familiar."</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag cesar">César</span>
+      <p class="dialogue-line">So they transform it…</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag jose">Jose</span>
+      <p class="dialogue-line">And that's how soukous is created.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag carolina">Carolina</span>
+      <p class="dialogue-line">It's literally a back-and-forth journey.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag cesar">César</span>
+      <p class="dialogue-line">Africa → America → Africa again.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag jose">Jose</span>
+      <p class="dialogue-line">And every time it changes, but the essence stays.</p>
+    </div>
+  </section>
+
+  <!-- COLOMBIA -->
+  <section class="section" id="colombia">
+    <div class="chapter-header">
+      <p class="chapter-era">Colombia — Caribbean Coast</p>
+      <h2 class="chapter-title">The Journey Reaches Us</h2>
+      <p class="chapter-desc">The music that crossed an ocean now crosses another border: the Colombian coast.</p>
+    </div>
+
+    <div class="dialogue-block">
+      <span class="speaker-tag carolina">Carolina</span>
+      <p class="dialogue-line">Now let's bring all of this to Colombia.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag cesar">César</span>
+      <p class="dialogue-line">Especially the Caribbean coast.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag jose">Jose</span>
+      <p class="dialogue-line">Because this is where something really important happens: the picó culture.</p>
+    </div>
+  </section>
+
+  <!-- PICÓ -->
+  <section class="section" id="pico">
+    <div class="chapter-header">
+      <p class="chapter-era">Mid-20th Century — Barranquilla, Cartagena</p>
+      <h2 class="chapter-title">The Picó: More Than a Speaker</h2>
+      <p class="chapter-desc">Huge sound systems, Congolese records, and a culture that feels like home — because it is.</p>
+    </div>
+
+    <div class="film-callout">
+      <p class="film-callout-label">Soundtrack of a Coup d'État — The Political Power of Sound</p>
+      <p>Just as the film shows how jazz was weaponized in Cold War politics — used at the UN, played at independence celebrations in Leopoldville — the picó also carried political and social weight. It gave Black communities on Colombia's coast a space, an identity, and a voice. Sound as power. Both stories are the same story.</p>
+    </div>
+
+    <div class="dialogue-block">
+      <span class="speaker-tag carolina">Carolina</span>
+      <p class="dialogue-line">Okay, so basically, picós are these huge sound systems.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag cesar">César</span>
+      <p class="dialogue-line">But it's not just about speakers… it's a whole culture.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag jose">Jose</span>
+      <p class="dialogue-line">Yeah, because they started playing African and Caribbean music that you couldn't hear anywhere else.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag carolina">Carolina</span>
+      <p class="dialogue-line">This starts around the mid-20th century.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag cesar">César</span>
+      <p class="dialogue-line">African records begin arriving…</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag jose">Jose</span>
+      <p class="dialogue-line">A lot of them from the Congo — like soukous and rumba.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag carolina">Carolina</span>
+      <p class="dialogue-line">And what's interesting is that people here really connect with that sound.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag cesar">César</span>
+      <p class="dialogue-line">Yeah, like it feels familiar.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag jose">Jose</span>
+      <p class="dialogue-line">Because deep down, it comes from the same African roots.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag carolina">Carolina</span>
+      <p class="dialogue-line">And that changes everything.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag cesar">César</span>
+      <p class="dialogue-line">The way people dance…</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag jose">Jose</span>
+      <p class="dialogue-line">The way people gather…</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag carolina">Carolina</span>
+      <p class="dialogue-line">Even the identity of neighborhoods.</p>
+    </div>
+  </section>
+
+  <!-- INTERVIEW -->
+  <section class="section" id="interview">
+    <div class="chapter-header">
+      <p class="chapter-era">Interview Space</p>
+      <h2 class="chapter-title">From the Inside</h2>
+      <p class="chapter-desc">Someone who actually lives this culture. Three questions. Real answers.</p>
+    </div>
+
+    <div class="dialogue-block">
+      <span class="speaker-tag cesar">César</span>
+      <p class="dialogue-line">But I feel like we're explaining this from the outside…</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag jose">Jose</span>
+      <p class="dialogue-line">Yeah, like academically.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag carolina">Carolina</span>
+      <p class="dialogue-line">So we wanted to bring someone who actually lives this culture.</p>
+    </div>
+
+    <div class="section-marker">
+      <div class="section-marker-line"></div>
+      <div class="section-marker-label">Interview Questions</div>
+      <div class="section-marker-line"></div>
+    </div>
+
+    <div class="interview-block">
+      <p class="interview-q"><strong>Carolina:</strong> So… how did you get involved in picó culture?</p>
+      <p class="interview-pause">— pause for answer —</p>
+    </div>
+    <div class="interview-block">
+      <p class="interview-q"><strong>César:</strong> What is it about African music that connects so much with people here?</p>
+      <p class="interview-pause">— pause for answer —</p>
+    </div>
+    <div class="interview-block">
+      <p class="interview-q"><strong>Jose:</strong> Do you think people really understand where this music comes from?</p>
+      <p class="interview-pause">— pause for answer —</p>
+    </div>
+  </section>
+
+  <!-- CLOSING -->
+  <section class="section" id="closing">
+    <div class="chapter-header">
+      <p class="chapter-era">Closing</p>
+      <h2 class="chapter-title">Still Alive</h2>
+      <p class="chapter-desc">This isn't history. It's now. Every time a picó is playing.</p>
+    </div>
+
+    <div class="film-callout">
+      <p class="film-callout-label">Final Reflection — Soundtrack of a Coup d'État</p>
+      <p>Grimonprez ends his film with an open question: can music change history? Our answer is that it already has — many times. From the navel dance in West Africa to the rumba in Havana to soukous in Kinshasa to a picó speaker in Barranquilla, something endured. That endurance is the subject of this episode. And it asks us the same question the film does: if you can hear where this music comes from, what responsibility does that carry?</p>
+    </div>
+
+    <div class="dialogue-block">
+      <span class="speaker-tag carolina">Carolina</span>
+      <p class="dialogue-line">At the end of the day… this isn't just music.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag cesar">César</span>
+      <p class="dialogue-line">It's history.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag jose">Jose</span>
+      <p class="dialogue-line">It's identity.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag carolina">Carolina</span>
+      <p class="dialogue-line">And it's still alive every time a picó is playing.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag cesar">César</span>
+      <p class="dialogue-line">Literally.</p>
+    </div>
+    <div class="dialogue-block">
+      <span class="speaker-tag jose">Jose</span>
+      <p class="dialogue-line">Thanks for listening.</p>
+    </div>
+
+    <div class="credits">
+      <p><strong>Carolina · César · Jose</strong></p>
+      <p>Cultural Issues — Assessment 3: Creative Product</p>
+      <p>Starting point: <em>Soundtrack of a Coup d'État</em> (Johan Grimonprez, 2024)</p>
+    </div>
+  </section>
+
+</main>
+</div>
+
+<script>
+  function showSection(id, navEl) {
+    document.querySelectorAll('.section').forEach(s => s.classList.remove('active'));
+    document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+    document.getElementById(id).classList.add('active');
+    navEl.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+</script>
+</body>
+</html>
